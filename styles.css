@@ -1,0 +1,38 @@
+html, body {
+    height: 100%;
+}
+body, #header, #footer, #main, .buttons, .sliders, .canvas {
+    display: flex;
+    flex: 1;
+}
+
+body, .buttons, .sliders {
+    flex-direction: column;
+}
+
+#header, #footer{
+    justify-content: center;
+    align-items: center;
+}
+#main {
+    flex: 2;
+}
+.buttons, .sliders {
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+}
+.canvas {
+    flex: 0 0 500px;
+    height: 500px;
+}
+.grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(14,auto);
+    grid-template-rows: repeat(14,auto);
+}
+
+.cell {
+    border: solid black 1px;
+}
