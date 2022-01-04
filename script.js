@@ -1,19 +1,11 @@
-let currentSize = 50;
+let currentSize = 50;                                                   //lenght of one side of the canvas
 const grid = document.querySelector('.grid');
 const range = document.querySelector('#range');
 const rangeOutput = document.querySelector('.sliders div');
 rangeOutput.textContent = `${currentSize} x ${currentSize}`;
+let color = 'black';
 
-for(i=0; i<(currentSize**2); i++) {                                              //default cell count
-    let cell = document.createElement('div');
-    cell.classList.add('cell');
-    //cell.textContent = `${i+1}`
-    cell.addEventListener('mouseover', function() {
-        cell.style.backgroundColor = 'black';
-    });
-    grid.appendChild(cell);
-}
-
+addingCells(currentSize**2);                                            //default grid size
 
 range.oninput = function() {
     rangeOutput.textContent = `${range.value} x ${range.value}`;
@@ -23,7 +15,7 @@ range.oninput = function() {
 
     switch (difference > 0) {
         case true:
-            addingCells(currentSize, difference);
+            addingCells(difference);
             break;
         case false:
             subtractingCells(difference * -1)
@@ -32,13 +24,12 @@ range.oninput = function() {
     currentSize = range.value;
 }
 
-function addingCells (currentSize, toAdd) {
+function addingCells (toAdd) {
     for(i=1; i <= toAdd; i++){
         let cell = document.createElement('div');
         cell.classList.add('cell');
-        //cell.textContent = `${(currentSize**2)+i}`;
         cell.addEventListener('mouseover', function() {
-            cell.style.backgroundColor = 'black';
+            cell.style.backgroundColor = color;
         });
         grid.appendChild(cell);
     }
@@ -47,4 +38,32 @@ function addingCells (currentSize, toAdd) {
 function subtractingCells (toSub) {
     for (i=1; i <= toSub; i++)
     grid.removeChild(grid.lastChild);
+}
+
+const buttons = document.querySelectorAll('button');
+buttons.forEach(button => {
+    button.addEventListener('click', function() {
+        pickcolor(button.classList);
+        console.log('new color:' + color);
+    })
+})
+
+function pickcolor(domColor) {
+    switch (domColor.value) {
+        case "black":
+            color = 'green';
+            break;
+        case 'gray':
+            color = 'red';
+            break;
+        case 'rainbow':
+            color = 'blue';
+            break;
+        case 'reset':
+            const nodes = grid.childNodes;
+            for (i=0; i < nodes.length; i++) {
+                nodes[i].style.backgroundColor = "white";
+            }
+            break;
+    }
 }
