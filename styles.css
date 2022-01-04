@@ -5,11 +5,9 @@ body, #header, #footer, #main, .buttons, .sliders, .canvas {
     display: flex;
     flex: 1;
 }
-
 body, .buttons, .sliders {
     flex-direction: column;
 }
-
 #header, #footer{
     justify-content: center;
     align-items: center;
@@ -25,14 +23,23 @@ body, .buttons, .sliders {
 .canvas {
     flex: 0 0 500px;
     height: 500px;
+    border: solid black;
+}
+
+:root {
+    --grid-cols: 50;
+    --grid-rows: 50;
 }
 .grid {
     flex: 1;
     display: grid;
-    grid-template-columns: repeat(14,auto);
-    grid-template-rows: repeat(14,auto);
+    grid-template-columns: repeat(var(--grid-cols),auto);                       /*hmmm*/
+    grid-template-rows: repeat(var(--grid-rows),auto);
+}
+.cell {
+    
 }
 
-.cell {
-    border: solid black 1px;
+.slider {
+    width: 70%;
 }
