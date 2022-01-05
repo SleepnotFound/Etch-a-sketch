@@ -3,10 +3,12 @@ const grid = document.querySelector('.grid');
 const range = document.querySelector('#range');
 const rangeOutput = document.querySelector('.sliders div');
 rangeOutput.textContent = `${currentSize} x ${currentSize}`;
-let color = 'black';
+let color = null;
+let btnSelect = null;
 
-addingCells(currentSize**2);                                            //default grid size
+addingCells(currentSize**2);
 
+//slider handles grid size and cell count
 range.oninput = function() {
     rangeOutput.textContent = `${range.value} x ${range.value}`;
     grid.style.setProperty('--grid-rows', range.value);
@@ -23,41 +25,40 @@ range.oninput = function() {
     }
     currentSize = range.value;
 }
-
 function addingCells (toAdd) {
     for(i=1; i <= toAdd; i++){
         let cell = document.createElement('div');
         cell.classList.add('cell');
         cell.addEventListener('mouseover', function() {
-            cell.style.backgroundColor = color;
+            cell.style.backgroundColor = fillCell(event.target, btnSelect);
+            //console.log(event.target);
         });
         grid.appendChild(cell);
     }
 }
-
 function subtractingCells (toSub) {
     for (i=1; i <= toSub; i++)
     grid.removeChild(grid.lastChild);
 }
 
+//button handles choosing new colors
 const buttons = document.querySelectorAll('button');
 buttons.forEach(button => {
     button.addEventListener('click', function() {
         pickcolor(button.classList);
-        console.log('new color:' + color);
+        //console.log(button.classList);
     })
 })
-
 function pickcolor(domColor) {
     switch (domColor.value) {
         case "black":
-            color = 'green';
+            btnSelect = 'black';
             break;
         case 'gray':
-            color = 'red';
+            btnSelect = 'gray';
             break;
         case 'rainbow':
-            color = 'blue';
+            btnSelect = 'rainbow';
             break;
         case 'reset':
             const nodes = grid.childNodes;
@@ -66,4 +67,46 @@ function pickcolor(domColor) {
             }
             break;
     }
+}
+
+//colors cells approprietly
+function fillCell(target,btn) {
+    switch (btn) {
+        case 'black':
+            return 'black';
+            break;
+        case 'gray':
+            return grayscale(target);
+            break;
+        case 'rainbow':
+            return rainbow();
+            break;
+        default:
+
+    }
+}
+
+function grayscale (target) {
+    let bgColor = target.style.backgroundColor;
+    bgColor = bgColor.slice(4,bgColor.length-1)
+    bgColor = bgColor.replace(/ /g, '')
+    let values = bgColor.split(',')
+
+    if ((values[0]%25 == 0) && (values[1]%25 == 0) && (values[2]%25 == 0)) {
+        values[0] -= 25;
+        values[1] -= 25;
+        values[2] -= 25;
+
+        return `rgb(${values[0]}, ${values[1]}, ${values[2]})`
+    }
+    else {
+        return `rgb(250, 250, 250)`
+    }
+}
+
+function rainbow() {
+    let R = Math.floor(Math.random() * 255)
+    let G = Math.floor(Math.random() * 255)
+    let B = Math.floor(Math.random() * 255)
+    return `rgb(${R}, ${G}, ${B})`
 }
