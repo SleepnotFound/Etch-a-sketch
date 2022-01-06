@@ -8,7 +8,7 @@ let btnSelect = null;
 
 addingCells(currentSize**2);
 
-//slider handles grid size and cell count
+//slider handles grid size and adding or subtracting cells
 range.oninput = function() {
     rangeOutput.textContent = `${range.value} x ${range.value}`;
     grid.style.setProperty('--grid-rows', range.value);
@@ -31,7 +31,6 @@ function addingCells (toAdd) {
         cell.classList.add('cell');
         cell.addEventListener('mouseover', function() {
             cell.style.backgroundColor = fillCell(event.target, btnSelect);
-            //console.log(event.target);
         });
         grid.appendChild(cell);
     }
@@ -45,33 +44,32 @@ function subtractingCells (toSub) {
 const buttons = document.querySelectorAll('button');
 buttons.forEach(button => {
     button.addEventListener('click', function() {
-        pickcolor(button.classList);
-        //console.log(button.classList);
+        switch (button.id) {
+            case 'reset':
+                const nodes = grid.childNodes;
+                for (i=0; i < nodes.length; i++) {
+                    nodes[i].style.backgroundColor = "white";
+                }
+                break;
+            default: {
+                buttons.forEach(button => {
+                    if (button.classList.value == 'active') {
+                        button.classList.remove('active');
+                    }
+                })
+                button.classList.toggle('active');
+                btnSelect = button.id;
+            }
+        }
     })
 })
-function pickcolor(domColor) {
-    switch (domColor.value) {
-        case "black":
-            btnSelect = 'black';
-            break;
-        case 'gray':
-            btnSelect = 'gray';
-            break;
-        case 'rainbow':
-            btnSelect = 'rainbow';
-            break;
-        case 'reset':
-            const nodes = grid.childNodes;
-            for (i=0; i < nodes.length; i++) {
-                nodes[i].style.backgroundColor = "white";
-            }
-            break;
-    }
-}
 
 //colors cells approprietly
 function fillCell(target,btn) {
     switch (btn) {
+        case 'eraser':
+            return 'white';
+            break;
         case 'black':
             return 'black';
             break;
@@ -81,11 +79,8 @@ function fillCell(target,btn) {
         case 'rainbow':
             return rainbow();
             break;
-        default:
-
     }
 }
-
 function grayscale (target) {
     let bgColor = target.style.backgroundColor;
     bgColor = bgColor.slice(4,bgColor.length-1)
@@ -99,11 +94,8 @@ function grayscale (target) {
 
         return `rgb(${values[0]}, ${values[1]}, ${values[2]})`
     }
-    else {
-        return `rgb(250, 250, 250)`
-    }
+    else return `rgb(250, 250, 250)`
 }
-
 function rainbow() {
     let R = Math.floor(Math.random() * 255)
     let G = Math.floor(Math.random() * 255)
