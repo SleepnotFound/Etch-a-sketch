@@ -1,5 +1,6 @@
 html, body {
     height: 100%;
+    background-color: tomato;
 }
 body, #header, #footer, #main, .buttons, .sliders, .canvas {
     display: flex;
@@ -18,14 +19,8 @@ body, .buttons, .sliders {
 .buttons, .sliders {
     justify-content: center;
     align-items: center;
-    gap: 50px;
+    gap: 30px;
 }
-.canvas {
-    flex: 0 0 500px;
-    height: 500px;
-    border: solid black;
-}
-
 :root {
     --grid-cols: 50;
     --grid-rows: 50;
@@ -33,26 +28,40 @@ body, .buttons, .sliders {
 .grid {
     flex: 1;
     display: grid;
-    grid-template-columns: repeat(var(--grid-cols),auto);                       /*hmmm*/
+    grid-template-columns: repeat(var(--grid-cols),auto);
     grid-template-rows: repeat(var(--grid-rows),auto);
 }
 .slider {
     width: 70%;
 }
 
+/*colors/sizes/fonts!*/
+.canvas {
+    flex: 0 0 500px;
+    height: 500px;
+    border: solid 20px firebrick;
+    border-radius: 15px;
+}
 button {
     font-size: 15px;
     padding: 15px;
-    background-color: white;
-    color: black;
-    border: solid 2px black;
+    background-color: orangered;
+    color: white;
+    border: solid 4px darkred;
+    width: 10em;
 }
 
 button:hover {
-    background-color: greenyellow;
+    background-color: indianred;
     color: white;
 }
 .active {
-    background-color: green;
+    background-color: firebrick;
     color: white;
+}
+#header {
+    font-size: 4em;
+}
+div {
+    color:white
 }

@@ -1,14 +1,14 @@
 let currentSize = 50;                                                   //lenght of one side of the canvas
 const grid = document.querySelector('.grid');
 const range = document.querySelector('#range');
-const rangeOutput = document.querySelector('.sliders div');
+const rangeOutput = document.querySelector('.sliders div:nth-child(3)');
 rangeOutput.textContent = `${currentSize} x ${currentSize}`;
 let color = null;
 let btnSelect = null;
 
 addingCells(currentSize**2);
 
-//slider handles grid size and adding or subtracting cells
+//slider handles grid size and adding/subtracting cells
 range.oninput = function() {
     rangeOutput.textContent = `${range.value} x ${range.value}`;
     grid.style.setProperty('--grid-rows', range.value);
@@ -29,6 +29,7 @@ function addingCells (toAdd) {
     for(i=1; i <= toAdd; i++){
         let cell = document.createElement('div');
         cell.classList.add('cell');
+        cell.style.backgroundColor = 'white';
         cell.addEventListener('mouseover', function() {
             cell.style.backgroundColor = fillCell(event.target, btnSelect);
         });
